@@ -1,4 +1,5 @@
 // curl -siL https://courageous-cupcake-6d9019.netlify.app/.netlify/functions/start
+// https://hub.fastgit.xyz/aws/aws-lambda-go/blob/main/events/apigw.go
 
 package main
 
@@ -13,6 +14,7 @@ import (
 )
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+  log.Println("path:", request.PathParameters)
   url := request.QueryStringParameters["url"]
   return &events.APIGatewayProxyResponse{
     StatusCode:        200,
