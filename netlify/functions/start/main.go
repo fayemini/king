@@ -16,16 +16,22 @@ import (
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
   log.Println("path:", request.PathParameters)
   url := request.QueryStringParameters["url"]
-  body := fetch(url)
+  // body := fetch(url)
+  // log.Println("body:", body)
+  body := add(100, 200)
   log.Println("body:", body)
   return &events.APIGatewayProxyResponse{
     StatusCode:        200,
     Headers:           map[string]string{"Content-Type": "text/plain"},
     MultiValueHeaders: http.Header{"Set-Cookie": {"Ding", "Ping"}},
-    Body:              fmt.Sprintf("> URL: %s", url),
+    Body:              fmt.Sprintf("> URL: %s %s", url, body);
     // Body:              fmt.Sprintf("> Body: %s", body),
     IsBase64Encoded:   false,
   }, nil
+}
+
+func add(m, n int) int {
+  return m+n
 }
 
 func fetch(url string) string {
