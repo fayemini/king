@@ -16,11 +16,13 @@ import (
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
   log.Println("path:", request.PathParameters)
   url := request.QueryStringParameters["url"]
+  body := fetch(url)
   return &events.APIGatewayProxyResponse{
     StatusCode:        200,
     Headers:           map[string]string{"Content-Type": "text/plain"},
     MultiValueHeaders: http.Header{"Set-Cookie": {"Ding", "Ping"}},
-    Body:              fmt.Sprintf("> URL: %s", url),
+    // Body:              fmt.Sprintf("> URL: %s", url),
+    Body:              fmt.Sprintf("> Body: %s", body),
     IsBase64Encoded:   false,
   }, nil
 }
@@ -40,7 +42,7 @@ func fetch(url string) string {
   }
   // []byte -> string
   strBody := string(body)
-  log.Print(strBody)
+  // log.Print(strBody)
   return strBody
   // doc, err := goquery.NewDocumentFromReader(resp.Body)
   // if err != nil {
@@ -53,8 +55,8 @@ func fetch(url string) string {
 func main() {
   // url := "https://search.bilibili.com"
   // fetch(url)
-  log.Print(time.Second)
-  log.Print(fmt.Sprintf("%s DONE", "Task one"))
+  // log.Print(time.Second)
+  // log.Print(fmt.Sprintf("%s DONE", "Task one"))
 
   // Make the handler available for Remote Procedure Call
   lambda.Start(handler)
